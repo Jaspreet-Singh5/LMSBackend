@@ -62,7 +62,7 @@ router.get("/api/admin/user/:id", function(req, res){
 
 router.post("/api/admin/profile", function(req, res){
     console.log(req.body)
-    User.findOneAndUpdate(req.body.name, req.body.user, function(err, updatedUser){
+    User.findById(req.body.id, req.body.user, function(err, updatedUser){
         if(err){
             console.log(err);
             req.send(err.message);
