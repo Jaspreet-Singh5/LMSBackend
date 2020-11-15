@@ -48,6 +48,7 @@ router.get("/logout",function(req, res){
 
 // update profile
 router.post("/api/admin/profile", function(req, res){
+    console.log(req.body)
     User.findOneAndUpdate(req.body.name, req.body.user, function(err, updatedUser){
         if(err){
             console.log(err);
