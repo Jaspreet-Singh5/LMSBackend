@@ -36,8 +36,8 @@ router.get("/login",function(req, res){
 });
 
 // login logic
-router.post("/login",passport.authenticate("local",{
-    successRedirect: "/campgrounds",
+router.post("/api/admin/login",passport.authenticate("local",{
+    successRedirect: "/user",
     failureRedirect: "/login",
 }), function(req, res){
 });
