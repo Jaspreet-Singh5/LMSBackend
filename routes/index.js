@@ -46,7 +46,20 @@ router.get("/logout",function(req, res){
 });
 
 
-// update profile
+// get profile
+router.get("/api/admin/user/:id", function(req, res){
+    console.log(req.body)
+    User.findById(req.params.id, function(err, foundUser){
+        if(err){
+            console.log(err);
+            req.send(err.message);
+        }
+        else{
+            res.send(foundUser)
+        }
+    });
+});
+
 router.post("/api/admin/profile", function(req, res){
     console.log(req.body)
     User.findOneAndUpdate(req.body.name, req.body.user, function(err, updatedUser){
