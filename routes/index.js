@@ -24,9 +24,7 @@ router.post("/api/admin/register",function(req, res) {
        if(err){
            res.send(err)
        }
-       passport.authenticate("local")(req,res,function(){
-           res.send(res)
-       });
+       res.send("success")
    });
 });
 
@@ -36,10 +34,8 @@ router.get("/login",function(req, res){
 });
 
 // login logic
-router.post("/api/admin/login",passport.authenticate("local",{
-    successRedirect: "/user",
-    failureRedirect: "/login",
-}), function(req, res){
+router.post("/api/admin/login",passport.authenticate("local"), function(req, res){
+    res.send(req.user)
 });
 
 // logout logic

@@ -71,6 +71,11 @@ app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
 
+app.use(function(req, res, next) {
+    res.header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
+       next();
+ });
+
 // Init Middlewares
 app.use(express.json({ extended: false }));
 
