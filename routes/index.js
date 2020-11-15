@@ -19,7 +19,7 @@ router.get("/", function(req, res){
 router.post("/api/admin/register",function(req, res) {
    console.log('register post')
 
-   var newUser = new User({username:req.body.name, email:req.body.email});
+   var newUser = new User({username:req.body.email, name:req.body.name, type: 'student'});
    User.register(newUser,req.body.password,function(err,user){
        if(err){
            res.send(err)
