@@ -45,6 +45,20 @@ router.get("/logout",function(req, res){
     res.redirect("/campgrounds");
 });
 
+
+// update profile
+router.post("/api/admin/profile", function(req, res){
+    User.findOneAndUpdate(req.body.name, req.body.user, function(err, updatedUser){
+        if(err){
+            console.log(err);
+            req.send(err.message);
+        }
+        else{
+            res.send(updatedUser)
+        }
+    });
+});
+
 // middleware to prevent unauthenticated access
 function isLoggedIn(req, res, next){
     if(req.isAuthenticated()){
