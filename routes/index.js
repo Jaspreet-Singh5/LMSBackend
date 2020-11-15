@@ -10,23 +10,22 @@ router.get("/", function(req, res){
 });
 
 
-// register form
-router.get("/register",function(req,res){
-    res.render("register");
-})
+// // register form
+// router.get("/api/admin/register",function(req,res){
+//     res.send("register");
+// })
 
 //sign up logic
-router.post("/register",function(req, res) {
-   var newUser = new User({username:req.body.username});
+router.post("/api/admin/register",function(req, res) {
+   console.log('register post')
+
+   var newUser = new User({username:req.body.name, email:req.body.email});
    User.register(newUser,req.body.password,function(err,user){
        if(err){
-           req.flash("error",err.message);
-           
-           return res.redirect("/register");
+           res.send(err)
        }
        passport.authenticate("local")(req,res,function(){
-           req.flash("success","Welcome to YelpCamp "+user.username);
-           res.redirect("/campgrounds");
+           res.send(res)
        });
    });
 });

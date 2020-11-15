@@ -14,8 +14,27 @@ var campgroundRoute  = require("./routes/campground"),
     app              = express(),
     body             = require("body-parser");
 
-// mongoose.connect("mongodb://localhost/yelp_camp");
-mongoose.connect("mongodb://JaspreetSingh:jaspreet1999@ds159707.mlab.com:59707/yelpcampgrounds");
+// mongoose.connect(process.env.DATABASEURL);
+// const db = config.get("mongoURI");
+const db = "mongodb://JaspreetSingh:jaspreet1999@ds237832.mlab.com:37832/medicaps";
+
+const connectDB = async () => {
+  try {
+    await mongoose.connect(db, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useCreateIndex: true,
+      useFindAndModify: false
+    });
+    console.log("Mongodb connected...");
+  } catch (err) {
+    console.error(err.message);
+    // Exit process with failure
+    process.exit(1);
+  }
+};
+
+connectDB();
 
 // EXPRESS CONFIG
 app.use(require("express-session")({
@@ -41,6 +60,8 @@ app.use(function(req, res, next){
     next();
 });
 
+
+
 // seed the database
 //seedDB();
 
@@ -50,12 +71,16 @@ app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
 
+// Init Middlewares
+app.use(express.json({ extended: false }));
+
 // Routes
 app.use("/campgrounds",campgroundRoute);
 app.use("/campgrounds/:id/comments",commentRoute);
 app.use(indexRoute);
 
-app.listen(process.env.PORT, process.env.IP, function(){
-    console.log("The YelpCamp Server has Started.");
-    }
-);
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => {
+  console.log(`Server started on port ${PORT}`);
+});
