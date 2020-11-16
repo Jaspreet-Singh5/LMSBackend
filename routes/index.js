@@ -1,3 +1,5 @@
+const course = require("../models/course");
+
 var passport = require("passport"),
     express  = require("express"),
     router   = express.Router(),
@@ -45,6 +47,37 @@ router.get("/logout",function(req, res){
     res.redirect("/campgrounds");
 });
 
+// CREATE course
+router.post("/", middleware.isLoggedIn, function(req, res){
+    let courseName          = req.body.course_name;
+    let courseDesc          = req.body.course_desc;
+    let courseClass         = req.body.course_class;
+    let courseClassSubType  = req.body.courseClassSubType;
+    let courseSem           = req.body.courseSem;
+    let icon                = req.body.icon;
+
+    var newCourse = {
+        courseName          : courseName,
+        courseDesc          : courseDesc,
+        courseClass         : courseClass,
+        courseClassSubType  : courseClassSubType,
+        courseSem           : courseSem,
+        icon                : icon
+    };
+    
+    course.create(newCourse, function(err, newCourse){
+        if(err)
+        {
+            console.log(err);
+            res.send(err.message);
+        }
+        else
+        {
+            console.log(newCourse);
+            res.send("success");
+        }    
+    });
+});
 
 // get profile
 router.get("/api/admin/user/:id", function(req, res){
