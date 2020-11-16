@@ -1,4 +1,4 @@
-const course = require("../models/course");
+const Course = require("../models/course");
 
 var passport = require("passport"),
     express  = require("express"),
@@ -48,15 +48,19 @@ router.get("/logout",function(req, res){
 });
 
 // CREATE course
-router.post("/", middleware.isLoggedIn, function(req, res){
-    let courseName          = req.body.course_name;
-    let courseDesc          = req.body.course_desc;
-    let courseClass         = req.body.course_class;
-    let courseClassSubType  = req.body.courseClassSubType;
-    let courseSem           = req.body.courseSem;
-    let icon                = req.body.icon;
+router.post("/api/admin/course", function(req, res){
+    
+    let courseName          = req.body.course.courseName;
+    let courseDesc          = req.body.course.courseDesc;
+    let courseClass         = req.body.course.courseClass;
+    let courseClassSubType  = req.body.course.courseClassSubType;
+    let courseSem           = req.body.course.courseSem;
+    let icon                = req.body.course.icon;
 
     var newCourse = {
+        faculyId            : {
+            id: req.body.user_id
+        },
         courseName          : courseName,
         courseDesc          : courseDesc,
         courseClass         : courseClass,
@@ -64,8 +68,10 @@ router.post("/", middleware.isLoggedIn, function(req, res){
         courseSem           : courseSem,
         icon                : icon
     };
-    
-    course.create(newCourse, function(err, newCourse){
+     
+    console.log(newCourse)
+
+    Course.create(newCourse, function(err, newCourse){
         if(err)
         {
             console.log(err);
@@ -73,7 +79,6 @@ router.post("/", middleware.isLoggedIn, function(req, res){
         }
         else
         {
-            console.log(newCourse);
             res.send("success");
         }    
     });
