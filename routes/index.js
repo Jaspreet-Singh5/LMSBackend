@@ -66,7 +66,7 @@ router.post("/api/admin/profile", function(req, res){
     User.findOneAndUpdate({_id: req.body.id}, req.body.user, function(err, updatedUser){
         if(err){
             console.log(err);
-            req.send(err.message);
+            res.send(err.message);
         }
         else{
             res.send(updatedUser)
